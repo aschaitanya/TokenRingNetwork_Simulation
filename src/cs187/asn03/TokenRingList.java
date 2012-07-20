@@ -40,12 +40,13 @@ public class TokenRingList implements TokenRingListInterface {
 			list = newNode;
 			newNode.setBack(list);
 			newNode.setForward(list);
+			location = newNode;
 		}
-		else{                //TODO this needs to change - this is not applicable for this type of adding.
-			newNode.setBack(location.getBack());
-			newNode.setForward(location);
-			location.getBack().setForward(newNode);
-			location.setBack(newNode);
+		else{
+			newNode.setBack(location);
+			newNode.setForward(list);
+			location.setForward(newNode);
+			location = newNode;
 		}
 		size++;
 	}
