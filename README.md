@@ -1,1 +1,1 @@
-readme
+An excerise in using circular linked lists (doubly linked)
