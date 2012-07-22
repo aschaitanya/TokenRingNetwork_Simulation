@@ -3,7 +3,7 @@ package cs187.asn03;
 import support.DLLNode;
 
 /**
- * A specialized circular doubly linked list for a token ring simulation. 
+ * A specialized circular doubly linked list for a token ring simulation.
  */
 public class TokenRingList implements TokenRingListInterface {
 	// The start of the token ring list:
@@ -12,17 +12,18 @@ public class TokenRingList implements TokenRingListInterface {
 	private DLLNode<Workstation> location;
 	// The size of this list:
 	private int size;
-	// clockwise/counterclockwise - true if clockwise, false if counterclockwise:
+	// clockwise/counterclockwise - true if clockwise, false if
+	// counterclockwise:
 	private boolean clockwise = true;
-	
+
 	/**
 	 * Creates a new TokenRingList object.
 	 */
 	public TokenRingList() {
-		list     = null;
+		list = null;
 		location = null;
 	}
-	
+
 	/**
 	 * Returns the size of the token ring.
 	 */
@@ -35,14 +36,14 @@ public class TokenRingList implements TokenRingListInterface {
 	 */
 	public void add(Workstation element) {
 		DLLNode<Workstation> newNode = new DLLNode<Workstation>(element);
-		if (list == null){
-			//add element to an empty list
+		if (list == null) {
+			// add element to an empty list
 			list = newNode;
 			newNode.setBack(list);
 			newNode.setForward(list);
 			location = newNode;
-		}
-		else{
+		} else {
+			// add in any other case, list is unordered. Add to end of list.
 			newNode.setBack(location);
 			newNode.setForward(list);
 			location.setForward(newNode);
@@ -55,10 +56,31 @@ public class TokenRingList implements TokenRingListInterface {
 	 * Removes a Workstation object from this token ring.
 	 */
 	public boolean remove(Workstation element) {
-		// TODO
-		get(element);
-		if (contains(element)){
-			
+		// check if element exists, store element reference in location
+		// Successfully link back and forward elements together
+		// remove location
+
+		if (contains(element)) {
+
+			DLLNode<Workstation> nodeToDelete = null;
+			DLLNode<Workstation> t = list;
+			System.out.println(element);
+			do {
+				if (element == t.getInfo()) {
+					nodeToDelete = t;
+					System.out.println("Workstation Found!");
+					System.out.println(t.getInfo());
+					break; // if item is found, stop do/while loop
+				}
+				t = t.getForward();
+			} while (t != list);
+
+			nodeToDelete.getBack().setForward(nodeToDelete.getForward());
+			nodeToDelete.getForward().setBack(nodeToDelete.getBack());
+			System.out.println("Workstation Deleted!");
+
+		} else {
+			System.out.println("Workstation does not exsist");
 		}
 		size--;
 		return false;
@@ -71,7 +93,7 @@ public class TokenRingList implements TokenRingListInterface {
 		// Is the list empty?
 		if (list == null)
 			return false;
-		
+
 		// Find the element if it exists:
 		DLLNode<Workstation> t = list;
 		do {
@@ -79,7 +101,7 @@ public class TokenRingList implements TokenRingListInterface {
 				return true;
 			t = t.getForward();
 		} while (t != list);
-		
+
 		// Not found:
 		return false;
 	}
@@ -91,15 +113,15 @@ public class TokenRingList implements TokenRingListInterface {
 		// Is the list empty?
 		if (list == null)
 			return null;
-		
+
 		// Find the element if it exists:
 		DLLNode<Workstation> t = list;
 		do {
 			if (element == t.getInfo())
-				return element;			
+				return element;
 			t = t.getForward();
 		} while (t != list);
-		
+
 		// Not found:
 		return null;
 	}
@@ -113,24 +135,23 @@ public class TokenRingList implements TokenRingListInterface {
 	 */
 	public Workstation getNext() {
 		if (clockwise) {
-			return getClockwise(); 
-		}
-		else {
+			return getClockwise();
+		} else {
 			return getCounterClockwise();
 		}
 	}
 
 	/**
-	 * Returns the current workstation and advances location clockwise. 
+	 * Returns the current workstation and advances location clockwise.
 	 */
 	private Workstation getClockwise() {
 		DLLNode<Workstation> t = location;
 		location = location.getForward();
 		return t.getInfo();
 	}
-	
+
 	/**
-	 * Returns the current workstation and advances location counterclockwise. 
+	 * Returns the current workstation and advances location counterclockwise.
 	 */
 	private Workstation getCounterClockwise() {
 		DLLNode<Workstation> t = location;
@@ -146,10 +167,12 @@ public class TokenRingList implements TokenRingListInterface {
 	}
 
 	/**
-	 * Sets the token ring to retrieve workstations in a counterclockwise fashion.
+	 * Sets the token ring to retrieve workstations in a counterclockwise
+	 * fashion.
 	 */
 	public void setCounterClockwise() {
 		clockwise = false;
 	}
 	
+
 }
