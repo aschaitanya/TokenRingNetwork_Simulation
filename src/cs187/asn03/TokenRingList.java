@@ -54,12 +54,18 @@ public class TokenRingList implements TokenRingListInterface {
 
 	/**
 	 * Removes a Workstation object from this token ring.
+	 * Returning TRUE denotes successful removing of an element
 	 */
 	public boolean remove(Workstation element) {
 		// check if element exists, store element reference in location
 		// Successfully link back and forward elements together
 		// remove location
-
+		
+		if(list == null){
+			System.out.println("Empty List");
+			return false;
+		}
+		
 		if (contains(element)) {
 
 			DLLNode<Workstation> nodeToDelete = null;
@@ -81,9 +87,10 @@ public class TokenRingList implements TokenRingListInterface {
 
 		} else {
 			System.out.println("Workstation does not exsist");
+			return false;
 		}
 		size--;
-		return false;
+		return true;
 	}
 
 	/**

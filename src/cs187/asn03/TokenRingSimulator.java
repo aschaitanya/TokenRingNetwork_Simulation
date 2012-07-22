@@ -93,7 +93,7 @@ public class TokenRingSimulator {
 		ring.add(ws5);
 		
 		// Set clockwise/counter clockwise
-		ring.setCounterClockwise();
+		ring.setClockwise();
 		
 		//// Run Simulation ////
 		int numMsgsSent = 0;
