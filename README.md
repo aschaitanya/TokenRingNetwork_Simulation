@@ -1,1 +1,1 @@
-An excerise in using circular linked lists (doubly linked)
+An exercise in using circular linked lists (doubly linked)

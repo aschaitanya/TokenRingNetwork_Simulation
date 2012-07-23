@@ -42,13 +42,47 @@ public class TokenRingList implements TokenRingListInterface {
 			newNode.setBack(list);
 			newNode.setForward(list);
 			location = newNode;
-		} else {
-			// add in any other case, list is unordered. Add to end of list.
-			newNode.setBack(location);
-			newNode.setForward(list);
-			location.setForward(newNode);
-			location = newNode;
 		}
+//		
+//		****The below add method doesn't work correctly, keeping for reference.***
+//		
+//		else {
+//			// add in any other case, list is unordered. Add to end of list.
+//			newNode.setBack(location);
+//			newNode.setForward(list);
+//			location.setForward(newNode);
+//			location = newNode;
+//			
+//		}
+		else{
+			
+			DLLNode<Workstation> t = list;
+			do {
+				if (t.getForward() == list) {
+//					location = t;
+					location = t.getForward();
+					
+					
+					newNode.setBack(location.getBack());
+					newNode.setForward(location);
+					newNode.getBack().setForward(newNode);
+					location.setBack(newNode);
+					
+					
+					
+//					newNode.setBack(location);
+//					newNode.setForward(list);
+//					location.setForward(newNode);
+					
+					
+//					location = newNode;
+					break; // item is inserted
+				}
+				t = t.getForward();
+			} while (t != list);
+			
+		}
+		reset();
 		size++;
 	}
 
@@ -84,12 +118,14 @@ public class TokenRingList implements TokenRingListInterface {
 			nodeToDelete.getBack().setForward(nodeToDelete.getForward());
 			nodeToDelete.getForward().setBack(nodeToDelete.getBack());
 			System.out.println("Workstation Deleted!");
+			size--;
 
 		} else {
 			System.out.println("Workstation does not exsist");
 			return false;
 		}
-		size--;
+		
+		reset();
 		return true;
 	}
 
